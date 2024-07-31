@@ -1,9 +1,6 @@
 import { initializeApp } from "firebase/app";
 import { addDoc, collection, doc, getFirestore, setDoc } from "firebase/firestore";
-
-import firebase from "firebase/compat/app";
-// Required for side-effects
-import "firebase/firestore";
+import { getStorage, ref, uploadBytes, getDownloadURL  } from "firebase/storage";
 
 const firebaseConfig = {
     apiKey: process.env.NEXT_PUBLIC_APIKEY,
@@ -15,15 +12,28 @@ const firebaseConfig = {
     measurementId: process.env.NEXT_PUBLIC_MEASUREMENTID
   };
 
+interface IProduct{
+    name: string
+    priceRef: number
+    IngredientsRef: string
+    additingArrey: {name:string, price:number}[],
+    thumb: string
+}
 export default class controlDB{
     private app = initializeApp(firebaseConfig);
     private db = getFirestore(this.app)
+    private storage = getStorage();
 
-    public async addProduct(name:string) {
-        await setDoc(doc(this.db, "produtos", "xis bacon"), {
-            first: name,
-            last: "Lovelace",
-            born: 1815
-        });
+    public async addProduct(data:IProduct) {
+        await addDoc(collection(this.db, "produtos"), data);
+    }
+    public async addImage(file: File): Promise<string> {
+        return new Promise(async (resolve)=>{
+            await uploadBytes(ref(this.storage, file.name), file).then(async(snapshot) => {
+                await getDownloadURL(ref(this.storage, snapshot.ref.name)).then((url)=>{
+                    resolve(url)
+                })
+            });
+        })
     }
 }
