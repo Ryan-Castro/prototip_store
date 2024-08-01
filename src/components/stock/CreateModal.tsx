@@ -6,6 +6,8 @@ import { Dispatch, SetStateAction, useEffect, useRef } from "react";
 interface ICreateModal{
     show: boolean;
     headlessShow: Dispatch<SetStateAction<boolean>>
+    headlessUpdate: Dispatch<SetStateAction<boolean>>
+    updateDb: boolean
 }
 
 export default function CreateModal(props:ICreateModal) {
@@ -56,12 +58,14 @@ export default function CreateModal(props:ICreateModal) {
         }
         const dateProduct = {
             name: nameRef.current!.value,
-            priceRef: Number(priceRef.current!.value.replace(/,/g,".")),
-            IngredientsRef: IngredientsRef.current!.value,
-            additingArrey,
+            price: Number(priceRef.current!.value.replace(/,/g,".")),
+            Ingredients: IngredientsRef.current!.value,
+            additing: additingArrey,
             thumb: url
         }
         await fire.addProduct(dateProduct)
+        props.headlessShow(false)
+        props.headlessUpdate(!props.updateDb)
     }
     return (
       <div className="w-screen h-screen absolute top-0 right-0 modal hidden justify-center items-center" ref={modalRef}>

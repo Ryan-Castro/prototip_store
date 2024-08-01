@@ -1,5 +1,5 @@
 import { initializeApp } from "firebase/app";
-import { addDoc, collection, doc, getFirestore, setDoc } from "firebase/firestore";
+import { addDoc, collection, doc, DocumentData, getDocs, getFirestore, QuerySnapshot, setDoc } from "firebase/firestore";
 import { getStorage, ref, uploadBytes, getDownloadURL  } from "firebase/storage";
 
 const firebaseConfig = {
@@ -14,9 +14,9 @@ const firebaseConfig = {
 
 interface IProduct{
     name: string
-    priceRef: number
-    IngredientsRef: string
-    additingArrey: {name:string, price:number}[],
+    price: number
+    Ingredients: string
+    additing: {name:string, price:number}[],
     thumb: string
 }
 export default class controlDB{
@@ -34,6 +34,11 @@ export default class controlDB{
                     resolve(url)
                 })
             });
+        })
+    }
+    public async readDb(): Promise<QuerySnapshot<DocumentData, DocumentData>>{
+        return new Promise(async (resolve)=>{
+            resolve(await getDocs(collection(this.db, "produtos")))
         })
     }
 }
