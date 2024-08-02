@@ -1,6 +1,6 @@
 import { initializeApp } from "firebase/app";
-import { addDoc, collection, doc, DocumentData, getDocs, getFirestore, QuerySnapshot, setDoc } from "firebase/firestore";
-import { getStorage, ref, uploadBytes, getDownloadURL  } from "firebase/storage";
+import { addDoc, collection, deleteDoc, doc, DocumentData, getDocs, getFirestore, QuerySnapshot, setDoc } from "firebase/firestore";
+import { getStorage, ref, uploadBytes, getDownloadURL, deleteObject  } from "firebase/storage";
 
 const firebaseConfig = {
     apiKey: process.env.NEXT_PUBLIC_APIKEY,
@@ -27,6 +27,9 @@ export default class controlDB{
     public async addProduct(data:IProduct) {
         await addDoc(collection(this.db, "produtos"), data);
     }
+    public async setProduct(data:IProduct, id: string) {
+        await setDoc(doc(this.db, "produtos", id), data);
+    }
     public async addImage(file: File): Promise<string> {
         return new Promise(async (resolve)=>{
             await uploadBytes(ref(this.storage, file.name), file).then(async(snapshot) => {
@@ -34,6 +37,24 @@ export default class controlDB{
                     resolve(url)
                 })
             });
+        })
+    }
+    public async deletImage(url: string): Promise<boolean> {
+        return new Promise(async (resolve)=>{
+            await deleteObject(ref(this.storage, url)).then(() => {
+                resolve(true)
+              }).catch((error) => {
+                // Uh-oh, an error occurred!
+              });
+        })
+    }
+    public async deletProduct(id: string): Promise<boolean> {
+        return new Promise(async (resolve)=>{
+            await deleteDoc(doc(this.db, "produtos", id)).then(() => {
+                resolve(true)
+              }).catch((error) => {
+                // Uh-oh, an error occurred!
+              });
         })
     }
     public async readDb(): Promise<QuerySnapshot<DocumentData, DocumentData>>{
