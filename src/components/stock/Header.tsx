@@ -1,5 +1,6 @@
 interface IHeader{
   headlessCreate: ()=>void
+  headlessPromo: ()=>void
 }
 
 
@@ -9,7 +10,7 @@ export default function Header(props:IHeader) {
         <h1 className="text-3xl">Loja</h1>
         <ul className="flex gap-6">
           <li ><input className="bg-green-700 px-3 py-1 rounded-lg" type="button" value="Adicionar" onClick={props.headlessCreate}/></li>
-          <li ><input className="bg-cyan-700 px-3 py-1 rounded-lg" type="button" value="Promoções" /></li>
+          <li ><input className="bg-cyan-700 px-3 py-1 rounded-lg" type="button" value="Promoções" onClick={props.headlessPromo}/></li>
         </ul>
       </div>
     );

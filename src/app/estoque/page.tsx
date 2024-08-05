@@ -3,10 +3,11 @@
 import Content from "@/components/stock/Content";
 import CreateModal from "@/components/stock/CreateModal";
 import Header from "@/components/stock/Header";
-import Search from "@/components/stock/Search";
+import Search from "@/components/Search";
 import controlDB from "@/utils/useCaseDB";
 import { useEffect, useState } from "react";
 import Fuse from 'fuse.js';
+import PromoModal from "@/components/stock/PromoModal";
 
 
 const options = {
@@ -14,8 +15,9 @@ const options = {
   keys: ['name']
 };
 
-export default function Stock() {
+export default function Estoque() {
   const [showCreateModal, setCreateModal] = useState(false)
+  const [showPromoModal, setPromoModal] = useState(false)
   const [updateDb, setUpdateDb] = useState(false)
   const [items, setItems] = useState<any[]>([])
   const [itemsFiltred, setItemsFiltred] = useState<any[]>([])
@@ -34,6 +36,9 @@ export default function Stock() {
 
   function showCreateModalClick(){
     setCreateModal(true)
+  }
+  function showPromoModalClick(){
+    setPromoModal(true)
   }
 
   async function readDB() {
@@ -106,11 +111,12 @@ export default function Stock() {
   return (
     <div className="w-screen h-screen bg-zinc-900 flex flex-col">
       <div className="h-1/4">
-        <Header headlessCreate={showCreateModalClick}/>
+        <Header headlessCreate={showCreateModalClick} headlessPromo={showPromoModalClick}/>
         <Search headlessSearch={sortAndShow}/>
         <Content items={itemsFiltred} headlessUpdate={setUpdateDb} updateDb={updateDb}/>
       </div>
       <CreateModal show={showCreateModal} headlessShow={setCreateModal} headlessUpdate={setUpdateDb} updateDb={updateDb}/>
+      <PromoModal show={showPromoModal} headlessShow={setPromoModal} headlessUpdate={setUpdateDb} updateDb={updateDb}/>
     </div>
   );
 }

@@ -1,5 +1,5 @@
 import { initializeApp } from "firebase/app";
-import { addDoc, collection, deleteDoc, doc, DocumentData, getDocs, getFirestore, QuerySnapshot, setDoc } from "firebase/firestore";
+import { addDoc, collection, deleteDoc, doc, DocumentData, DocumentSnapshot, getDoc, getDocs, getFirestore, QuerySnapshot, setDoc } from "firebase/firestore";
 import { getStorage, ref, uploadBytes, getDownloadURL, deleteObject  } from "firebase/storage";
 
 const firebaseConfig = {
@@ -60,6 +60,16 @@ export default class controlDB{
     public async readDb(): Promise<QuerySnapshot<DocumentData, DocumentData>>{
         return new Promise(async (resolve)=>{
             resolve(await getDocs(collection(this.db, "produtos")))
+        })
+    }
+    public async setPromo(data:{name:string, price:number}[]) {
+        await setDoc(doc(this.db, "config", "promos"), {
+            ativas: data
+        });
+    }
+    public async readPromo(): Promise<DocumentSnapshot>{
+        return new Promise(async (resolve)=>{
+            resolve(await getDoc(doc(this.db, "config", "promos")))
         })
     }
 }
