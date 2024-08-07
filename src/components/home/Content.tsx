@@ -1,11 +1,10 @@
-import { Dispatch, SetStateAction, useState } from "react";
+import { useState } from "react";
 import Card from "./Card";
-import EditModal from "@/components/stock/EditModal";
+import SelectModal from "./SelectModal";
 
 interface IContent{
     items: any[]
-    headlessUpdate: Dispatch<SetStateAction<boolean>>
-    updateDb: boolean
+    bag: any
 }
 
 export default function Content(props:IContent) {
@@ -32,7 +31,7 @@ export default function Content(props:IContent) {
         {props.items.map((item, i)=>
             <Card item={item} key={i} showCreateModal={showCreateModal}/>
         )}
-        <EditModal show={showEditModal} headlessShow={setEditModal} headlessUpdate={props.headlessUpdate} updateDb={props.updateDb} prod={{nameProd,priceProd,ingredientsProd, additingProd,idProd,thumbPrd}}/>
+        <SelectModal show={showEditModal} headlessShow={setEditModal} prod={{nameProd,priceProd,ingredientsProd, additingProd,idProd,thumbPrd}} bag={props.bag}/>
       </div>
     );
   }

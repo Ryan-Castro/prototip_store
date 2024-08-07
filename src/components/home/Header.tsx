@@ -1,4 +1,7 @@
+import { Dispatch, SetStateAction } from "react";
+
 interface IHeader{
+  headlessRequest: Dispatch<SetStateAction<boolean>>
 }
 
 
@@ -7,7 +10,7 @@ export default function Header(props:IHeader) {
       <div className="w-screen h-16 bg-zinc-950 flex justify-between items-center px-7 ">
         <h1 className="text-3xl">Loja</h1>
         <ul className="flex gap-6">
-          <li ><input className="bg-green-700 px-3 py-1 rounded-lg" type="button" value="Ver meu pedido"/></li>
+          <li ><input className="bg-green-700 px-3 py-1 rounded-lg" type="button" value="Ver meu pedido" onClick={()=>{props.headlessRequest(true)}}/></li>
         </ul>
       </div>
     );

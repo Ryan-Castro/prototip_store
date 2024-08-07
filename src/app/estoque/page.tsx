@@ -1,13 +1,13 @@
 "use client"
 
-import Content from "@/components/stock/Content";
-import CreateModal from "@/components/stock/CreateModal";
-import Header from "@/components/stock/Header";
+import Content from "@/components/estoque/Content";
+import CreateModal from "@/components/estoque/CreateModal";
+import Header from "@/components/estoque/Header";
 import Search from "@/components/Search";
 import controlDB from "@/utils/useCaseDB";
 import { useEffect, useState } from "react";
 import Fuse from 'fuse.js';
-import PromoModal from "@/components/stock/PromoModal";
+import PromoModal from "@/components/estoque/PromoModal";
 
 
 const options = {

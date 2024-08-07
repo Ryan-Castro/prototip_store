@@ -19,7 +19,7 @@ export default function Card(props:ICard) {
   }
 
     return (
-      <div className="w-52 h-64 rounded-2xl overflow-hidden bg-zinc-800">
+      <div className="w-52 h-80 rounded-2xl overflow-hidden bg-zinc-800">
         <Image src={props.item.thumb} alt="" width={250} height={250} className="h-1/2" priority={true}></Image>
         <div className="p-2 flex flex-col justify-between h-1/2">
             <h1 className="text-4xl">{props.item.name}</h1>

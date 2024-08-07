@@ -5,6 +5,8 @@ import Search from "@/components/Search";
 import { useEffect, useState } from "react";
 import Fuse from 'fuse.js';
 import controlDB from "@/utils/useCaseDB";
+import Content from "@/components/home/Content";
+import RequestModal from "@/components/home/RequestModal";
 
 const options = {
   threshold: 0.3,
@@ -15,6 +17,8 @@ const options = {
 export default function Home() {
   const [items, setItems] = useState<any[]>([])
   const [itemsFiltred, setItemsFiltred] = useState<any[]>([])
+  const [showRequestModal, setRequestModal] = useState(false)
+  const [bag, setbag] = useState({})
   const fire = new controlDB()
 
   useEffect(()=>{
@@ -93,14 +97,17 @@ export default function Home() {
       default:
         break;
     }
+    console.log(itemsForSort)
     setItemsFiltred(itemsForSort)
   }
   return (
     <div className="w-screen h-screen bg-zinc-900 flex flex-col">
     <div className="h-1/4">
-      <Header/>
+      <Header headlessRequest={setRequestModal}/>
       <Search headlessSearch={sortAndShow}/>
+      <Content items={itemsFiltred} bag={bag}/>
     </div>
+    <RequestModal show={showRequestModal} headlessShow={setRequestModal} bag={bag}/>
   </div>
   );
 }
